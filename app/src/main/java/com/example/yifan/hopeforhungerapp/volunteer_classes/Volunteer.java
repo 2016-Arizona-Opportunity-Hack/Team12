@@ -31,6 +31,10 @@ public abstract class Volunteer {
         return address;
     }
 
+    public int getCurrentHoursWorked() {return currentHoursWorked; }
+
+    public int getWeeklyHoursWorked() { return weeklyHoursWorked; }
+
     public void setAddress(String address) {
         this.address = address;
     }
