@@ -1,5 +1,6 @@
 package com.example.yifan.hopeforhungerapp.sign_in_activity_classes;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.example.yifan.hopeforhungerapp.ApplicationConstants;
 import com.example.yifan.hopeforhungerapp.R;
 import com.example.yifan.hopeforhungerapp.volunteer_classes.BenevolentVolunteer;
 import com.example.yifan.hopeforhungerapp.volunteer_classes.Volunteer;
@@ -61,9 +63,23 @@ public class SignInActivity extends AppCompatActivity implements SignInCommunica
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1 && resultCode == Activity.RESULT_OK){
+            String addressStr = data.getStringExtra(ApplicationConstants.ADDRESS);
+            String guardianStr = data.getStringExtra(ApplicationConstants.GUARDIAN);
+            String nameStr = data.getStringExtra(ApplicationConstants.NAME);
+            String dateStr = data.getStringExtra(ApplicationConstants.DATE);
+            String phoneStr = data.getStringExtra(ApplicationConstants.PHONE);
+            volunteers.add(new BenevolentVolunteer(nameStr, addressStr, phoneStr, guardianStr, dateStr));
+            volunteerArrayAdapter.notifyDataSetChanged();
+        }
+    }
+
     private void createDummyData(){
         for(int i = 0; i < 5; i++){
-            volunteers.add(new BenevolentVolunteer("Person" + i, "address", "12345"));
+            volunteers.add(new BenevolentVolunteer("Person" + i, "address", "12345", "asdf", "sadfadsf"));
         }
     }
 

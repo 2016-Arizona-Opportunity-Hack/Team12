@@ -26,6 +26,7 @@
             android:layout_below="@id/sign_in_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_gravity="center"
             android:id="@+id/volunteer_listview"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"

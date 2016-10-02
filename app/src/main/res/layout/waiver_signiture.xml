@@ -33,7 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="phone number"
-        android:id="@+id/phone_number"
+        android:id="@+id/phone_field"
         />
 
     <CheckBox
@@ -46,7 +46,8 @@
         android:text="Submit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/button" />
+        android:id="@+id/submit_btn"
+        android:onClick="onSubmitBtnClicked"/>
 
 
 </LinearLayout>

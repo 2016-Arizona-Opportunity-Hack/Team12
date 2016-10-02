@@ -5,9 +5,13 @@ package com.example.yifan.hopeforhungerapp.volunteer_classes;
  */
 
 public class BenevolentVolunteer extends Volunteer {
-    public BenevolentVolunteer(String name, String address, String phoneNum){
+    private String guardian;
+
+    public BenevolentVolunteer(String name, String address, String phoneNum, String guardian, String signUpDate){
         this.setName(name);
         this.setAddress(address);
         this.setPhoneNum(phoneNum);
+        this.guardian = guardian;
+        this.setSignUpDate(signUpDate);
     }
 }

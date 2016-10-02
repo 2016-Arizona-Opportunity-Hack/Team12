@@ -12,7 +12,7 @@ public abstract class Volunteer {
     private String address;
     private String phoneNum;
     private ArrayList<String> physicalLimitations;
-    private Date signUpTime;
+    private String signUpDate;
     private boolean signedIn;
 
     private int currentHoursWorked;
@@ -62,8 +62,12 @@ public abstract class Volunteer {
         this.physicalLimitations = physicalLimitations;
     }
 
-    public Date getSignUpTime() {
-        return signUpTime;
+    public void setSignUpDate(String signUpDate) {
+        this.signUpDate = signUpDate;
+    }
+
+    public String getSignUpDate() {
+        return signUpDate;
     }
 
     public Date getEndTime() {
