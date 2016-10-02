@@ -3,14 +3,19 @@ package com.example.yifan.hopeforhungerapp.volunteer_classes;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.example.yifan.hopeforhungerapp.Day;
+import com.example.yifan.hopeforhungerapp.TimeWorked;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 /**
  * Created by Yifan on 10/1/2016.
  */
 
-public abstract class Volunteer implements Parcelable {
+public abstract class Volunteer implements Parcelable, Serializable {
     String name;
     String address;
     String phoneNum;
@@ -19,12 +24,24 @@ public abstract class Volunteer implements Parcelable {
     String signUpDate;
     boolean signedIn;
 
+    HashMap<String, Double> map = new HashMap<>();
+
     int currentHoursWorked;
     int weeklyHoursWorked;
 
     transient Date startTime;
     transient Date endTime;
 
+    public ToServerVolunteerData getToServerVolunteerData(){
+        return new ToServerVolunteerData(name, map);
+    }
+
+    public void addNewVolunteerEntry(TimeWorked timeWorked){
+        Day key = Day.getInstance();
+        double hoursDecimal = timeWorked.hours + (timeWorked.minutes/60);
+        if(map.containsKey(key.toString()))
+        map.put(key.toString(), hoursDecimal);
+    }
 
     public String getName() {
         return name;

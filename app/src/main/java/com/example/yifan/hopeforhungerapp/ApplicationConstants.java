@@ -13,14 +13,9 @@ public class ApplicationConstants {
     public final static String DATE = "Date";
     public final static String PHONE = "Phone";
 
-    public static class TimeDifference {
-        int hours;
-        int minutes;
-        int seconds;
-    }
 
-    public static TimeDifference getTimeDifference(Date start, Date end){
-        TimeDifference diff = new TimeDifference();
+    public static TimeWorked getTimeDifference(Date start, Date end){
+        TimeWorked diff = new TimeWorked();
         long timeDiff = end.getTime() - start.getTime();
         if(start.after(end)){
             return diff;
@@ -30,5 +25,7 @@ public class ApplicationConstants {
         diff.seconds = (int)timeDiff /1000 % 60;
         return diff;
     }
+
+
 
 }

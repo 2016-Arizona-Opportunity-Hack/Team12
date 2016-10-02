@@ -71,9 +71,10 @@ public class SignInFragment extends Fragment {
         TextView weekHours = (TextView)view.findViewById(R.id.weeklyHoursField);
         String temp;
         if(volunteer.isSignedIn()){
-            ApplicationConstants.TimeDifference diff = ApplicationConstants.getTimeDifference(volunteer.getStartTime(), volunteer.getEndTime());
+            TimeWorked diff = ApplicationConstants.getTimeDifference(volunteer.getStartTime(), volunteer.getEndTime());
             temp = "volunteer time today: " + String.valueOf(diff.hours) + "hrs " + String.valueOf(diff.minutes) + "mins " + String.valueOf(diff.seconds) + "seconds";
             curHours.setText(temp);
+            volunteer.addNewVolunteerEntry(diff);
         }
 
         temp = "accumulated weekly hours: " + String.valueOf(weeklyHours);
@@ -109,6 +110,7 @@ public class SignInFragment extends Fragment {
             public void onClick(View v) {
                 //set the signed in status to false if current value of signed in is true
                 if(signedInStatus){
+
                     volunteer.setSignedIn(false);
                 }else{  //Make toast for this later
                     volunteer.setSignedIn(true);

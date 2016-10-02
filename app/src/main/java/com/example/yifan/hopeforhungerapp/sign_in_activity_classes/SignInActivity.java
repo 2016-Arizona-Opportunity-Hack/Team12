@@ -20,7 +20,10 @@ import com.example.yifan.hopeforhungerapp.ApplicationConstants;
 import com.example.yifan.hopeforhungerapp.R;
 import com.example.yifan.hopeforhungerapp.SignInFragment;
 import com.example.yifan.hopeforhungerapp.volunteer_classes.BenevolentVolunteer;
+import com.example.yifan.hopeforhungerapp.volunteer_classes.ToServerVolunteerData;
 import com.example.yifan.hopeforhungerapp.volunteer_classes.Volunteer;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
 
@@ -45,7 +48,7 @@ public class SignInActivity extends AppCompatActivity implements SignInCommunica
             toolbar.setTitleTextColor(0xFFFFFFFF);
         }
         volunteers = new ArrayList<>();
-        createDummyData();
+        //createDummyData();
         volunteerArrayAdapter = new VolunteerAdapter(getApplicationContext(), R.layout.single_volunteer_layout, volunteers);
         mVolunteers = (ListView) findViewById(R.id.volunteer_listview);
         mVolunteers.setAdapter(volunteerArrayAdapter);
@@ -75,6 +78,7 @@ public class SignInActivity extends AppCompatActivity implements SignInCommunica
         });
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.add_new_volunteer, menu);
@@ -89,6 +93,19 @@ public class SignInActivity extends AppCompatActivity implements SignInCommunica
                 Intent waiverIntent = new Intent(getApplicationContext(), WaiverActivity.class);
                 startActivityForResult(waiverIntent, 1);
                 return true;
+            case R.id.upload_data:
+                Log.i(LOG_TAG, "upload");
+                ArrayList<ToServerVolunteerData> data = new ArrayList<>();
+                for(Volunteer vol: volunteers){
+                    data.add(vol.getToServerVolunteerData());
+                }
+                GsonBuilder builder = new GsonBuilder();
+                builder.setPrettyPrinting();
+                Gson gson = builder.create();
+                String json = gson.toJson(data);
+                Log.i(LOG_TAG, json);
+
+
 
             default:
                 return false;

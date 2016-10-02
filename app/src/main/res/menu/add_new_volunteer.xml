@@ -7,5 +7,13 @@
         android:title="add new volunteer"
         app:showAsAction="ifRoom"/>
 
+    <item
+        android:title="upload data"
+        android:id="@+id/upload_data"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/upload"
+
+        />
+
 
 </menu>
