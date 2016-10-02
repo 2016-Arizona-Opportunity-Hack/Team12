@@ -15,6 +15,8 @@ import android.widget.TextView;
 import com.example.yifan.hopeforhungerapp.sign_in_activity_classes.SignInActivity;
 import com.example.yifan.hopeforhungerapp.volunteer_classes.Volunteer;
 
+import java.util.Date;
+
 /*
 When the user clicks on one of the cells in the ListView it will inflate this fragment
  */
@@ -51,11 +53,15 @@ public class SignInFragment extends Fragment {
         int weeklyHours = volunteer.getWeeklyHoursWorked();
 
         //Display everything in the layout
-        hourLabelsSet(currentHours, weeklyHours);
+
         setButtonText(vSignStatus);
+        hourLabelsSet(currentHours, weeklyHours);
         textViewSetUp(name);
         setupButton(vSignStatus);
         return view;
+
+
+
     }
 
     //Display the current hours and weekly hours worked
@@ -63,9 +69,13 @@ public class SignInFragment extends Fragment {
     {
         TextView curHours = (TextView)view.findViewById(R.id.curHoursField);
         TextView weekHours = (TextView)view.findViewById(R.id.weeklyHoursField);
-        String temp = "volunteer time today: " + String.valueOf(currentHours);
+        String temp;
+        if(volunteer.isSignedIn()){
+            ApplicationConstants.TimeDifference diff = ApplicationConstants.getTimeDifference(volunteer.getStartTime(), volunteer.getEndTime());
+            temp = "volunteer time today: " + String.valueOf(diff.hours) + "hrs " + String.valueOf(diff.minutes) + "mins " + String.valueOf(diff.seconds) + "seconds";
+            curHours.setText(temp);
+        }
 
-        curHours.setText(temp);
         temp = "accumulated weekly hours: " + String.valueOf(weeklyHours);
         weekHours.setText(temp);
     }
@@ -74,8 +84,10 @@ public class SignInFragment extends Fragment {
     {
         Button button = (Button)view.findViewById(R.id.signButton);
         if(signStatus){
+            volunteer.setEndTime(new Date());
             button.setText("Sign Out");
         }else{
+            volunteer.setStartTime(new Date());
             button.setText("Sign In");
         }
     }
