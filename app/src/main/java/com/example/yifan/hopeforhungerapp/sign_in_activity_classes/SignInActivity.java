@@ -2,6 +2,7 @@ package com.example.yifan.hopeforhungerapp.sign_in_activity_classes;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -53,11 +54,23 @@ public class SignInActivity extends AppCompatActivity implements SignInCommunica
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d(LOG_TAG, "item cliked position: " + position);
                 Volunteer selected = volunteers.get(position);
-                SignInFragment fragment = SignInFragment.newInstance(selected);
-                getSupportFragmentManager().beginTransaction()
-                        .add(R.id.sign_in_fragment_container, fragment)
-                        .commit();
-                drawer.openDrawer(Gravity.RIGHT);
+                Fragment f = getSupportFragmentManager().findFragmentByTag("sign_in_fragment");
+                if(f != null && f instanceof SignInFragment){
+                    SignInFragment fragment = SignInFragment.newInstance(selected);
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.sign_in_fragment_container, fragment, "sign_in_fragment")
+                            .commit();
+                    drawer.openDrawer(Gravity.RIGHT);
+                }
+                else{
+                    SignInFragment fragment = SignInFragment.newInstance(selected);
+                    getSupportFragmentManager().beginTransaction()
+                            .add(R.id.sign_in_fragment_container, fragment, "sign_in_fragment")
+                            .commit();
+                    drawer.openDrawer(Gravity.RIGHT);
+                }
+
+
             }
         });
     }
@@ -103,7 +116,8 @@ public class SignInActivity extends AppCompatActivity implements SignInCommunica
     }
 
     @Override
-    public void signIn(Volunteer newVolunteer) {
-
+    public void signIn() {
+        volunteerArrayAdapter.notifyDataSetChanged();
+        drawer.closeDrawer(Gravity.RIGHT);
     }
 }

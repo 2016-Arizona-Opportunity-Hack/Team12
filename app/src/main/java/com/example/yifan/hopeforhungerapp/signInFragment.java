@@ -21,10 +21,7 @@ When the user clicks on one of the cells in the ListView it will inflate this fr
 //inherit from fragment class
 public class SignInFragment extends Fragment {
 
-    private static final String VOLUNTEER_NAME = "Name";
-    private static final String SIGN_IN_BOOL = "signedIn";
-    private static final String CURRENT_HOURS = "CurrentHours";
-    private static final String WEEKLY_HOURS = "WeeklyHours";
+    private static final String VOLUNTEER = "Volunteer";
 
     private SignInActivity hostActivity;
     private View view;
@@ -34,10 +31,7 @@ public class SignInFragment extends Fragment {
     public static SignInFragment newInstance(Volunteer volunteer){
         SignInFragment sIF = new SignInFragment();
         Bundle bundle = new Bundle();   //Use bundle to pass data to fragment
-        bundle.putString(VOLUNTEER_NAME, volunteer.getName());      //gets the name from the volunteer
-        bundle.putBoolean(SIGN_IN_BOOL, volunteer.isSignedIn());    //gets boolean signedIn value
-        bundle.putInt(CURRENT_HOURS, volunteer.getCurrentHoursWorked());    //gets the current hours worked by volunteer
-        bundle.putInt(WEEKLY_HOURS, volunteer.getWeeklyHoursWorked());  //gets weekly hours of volunteer
+        bundle.putParcelable(VOLUNTEER, volunteer);
         sIF.setArguments(bundle);
         return sIF;
 
@@ -49,10 +43,13 @@ public class SignInFragment extends Fragment {
         view = inflater.inflate(R.layout.sign_in_fragment, container, false);
         Bundle bundle = getArguments();
         //Set the values that the bundle is going to return
-        String name = bundle.getString(VOLUNTEER_NAME);
-        boolean vSignStatus = bundle.getBoolean(SIGN_IN_BOOL);
-        int currentHours = bundle.getInt(CURRENT_HOURS);
-        int weeklyHours = bundle.getInt(WEEKLY_HOURS);
+        volunteer = bundle.getParcelable(VOLUNTEER);
+
+        String name = volunteer.getName();
+        boolean vSignStatus = volunteer.isSignedIn();
+        int currentHours = volunteer.getCurrentHoursWorked();
+        int weeklyHours = volunteer.getWeeklyHoursWorked();
+
         //Display everything in the layout
         hourLabelsSet(currentHours, weeklyHours);
         setButtonText(vSignStatus);
@@ -66,8 +63,11 @@ public class SignInFragment extends Fragment {
     {
         TextView curHours = (TextView)view.findViewById(R.id.curHoursField);
         TextView weekHours = (TextView)view.findViewById(R.id.weeklyHoursField);
-        curHours.setText(String.valueOf(currentHours));
-        weekHours.setText(String.valueOf(weeklyHours));
+        String temp = "volunteer time today: " + String.valueOf(currentHours);
+
+        curHours.setText(temp);
+        temp = "accumulated weekly hours: " + String.valueOf(weeklyHours);
+        weekHours.setText(temp);
     }
     //Set the button's text based on volunteer sign-in status
     private void setButtonText(boolean signStatus)
@@ -101,6 +101,7 @@ public class SignInFragment extends Fragment {
                 }else{  //Make toast for this later
                     volunteer.setSignedIn(true);
                 }
+                hostActivity.signIn();
             }
         });
 
