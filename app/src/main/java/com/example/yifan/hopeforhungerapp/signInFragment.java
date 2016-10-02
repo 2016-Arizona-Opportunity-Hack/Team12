@@ -3,6 +3,7 @@ package com.example.yifan.hopeforhungerapp;
 /**
  * Created by TonysPC on 10/1/2016.
  */
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.graphics.Color;
+import android.widget.Toast;
 
 import com.example.yifan.hopeforhungerapp.sign_in_activity_classes.SignInActivity;
 import com.example.yifan.hopeforhungerapp.volunteer_classes.Volunteer;
@@ -53,30 +56,27 @@ public class SignInFragment extends Fragment {
         int weeklyHours = volunteer.getWeeklyHoursWorked();
 
         //Display everything in the layout
-
         setButtonText(vSignStatus);
         hourLabelsSet(currentHours, weeklyHours);
         textViewSetUp(name);
         setupButton(vSignStatus);
         return view;
-
-
-
     }
 
     //Display the current hours and weekly hours worked
     private void hourLabelsSet(int currentHours, int weeklyHours)
     {
         TextView curHours = (TextView)view.findViewById(R.id.curHoursField);
-        TextView weekHours = (TextView)view.findViewById(R.id.weeklyHoursField);
+        TextView weekHours = (TextView)view.findViewById(R.id.weeklyHoursOutput);
         String temp;
         if(volunteer.isSignedIn()){
             ApplicationConstants.TimeDifference diff = ApplicationConstants.getTimeDifference(volunteer.getStartTime(), volunteer.getEndTime());
-            temp = "volunteer time today: " + String.valueOf(diff.hours) + "hrs " + String.valueOf(diff.minutes) + "mins " + String.valueOf(diff.seconds) + "seconds";
+            temp = "Volunteer Time Today:\n " + String.valueOf(diff.hours) + "hrs " + String.valueOf(diff.minutes) + "mins " + String.valueOf(diff.seconds) + "seconds";
             curHours.setText(temp);
         }
 
-        temp = "accumulated weekly hours: " + String.valueOf(weeklyHours);
+        //temp = "Accumulated Weekly Hours:\n " + String.valueOf(weeklyHours);
+        temp = String.valueOf(weeklyHours);
         weekHours.setText(temp);
     }
     //Set the button's text based on volunteer sign-in status
@@ -85,9 +85,11 @@ public class SignInFragment extends Fragment {
         Button button = (Button)view.findViewById(R.id.signButton);
         if(signStatus){
             volunteer.setEndTime(new Date());
+            button.setBackgroundColor(Color.RED);
             button.setText("Sign Out");
         }else{
             volunteer.setStartTime(new Date());
+            button.setBackgroundColor(Color.GREEN);
             button.setText("Sign In");
         }
     }
@@ -110,8 +112,10 @@ public class SignInFragment extends Fragment {
                 //set the signed in status to false if current value of signed in is true
                 if(signedInStatus){
                     volunteer.setSignedIn(false);
+                    Toast.makeText(getActivity().getApplicationContext(), "Thank You For Volunteering!", Toast.LENGTH_SHORT).show();
                 }else{  //Make toast for this later
                     volunteer.setSignedIn(true);
+                    Toast.makeText(getActivity().getApplicationContext(), "Signed In", Toast.LENGTH_SHORT).show();
                 }
                 hostActivity.signIn();
             }

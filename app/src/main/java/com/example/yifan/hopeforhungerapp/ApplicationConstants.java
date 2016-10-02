@@ -19,6 +19,12 @@ public class ApplicationConstants {
         int seconds;
     }
 
+    /**
+     *
+     * @param start: specifies the start of the users login
+     * @param end: specifies the time when the user logs out
+     * @return treturns the difference between the start and end time in hours, minutes, and seconds
+     */
     public static TimeDifference getTimeDifference(Date start, Date end){
         TimeDifference diff = new TimeDifference();
         long timeDiff = end.getTime() - start.getTime();

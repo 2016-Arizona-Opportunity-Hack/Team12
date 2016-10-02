@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFFFF"
+    android:background="#FFFFFF"
     >
 
 
@@ -15,16 +16,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp" />
 
-    <TextView
-        android:id="@+id/curHoursField"
-        android:text="Current Hours Worked"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/signButton"
-        android:layout_marginTop="100dp"
-        />
-
     <Button
         android:id="@+id/signButton"
         android:layout_width="wrap_content"
@@ -35,14 +26,33 @@
         android:layout_centerHorizontal="true" />
 
     <TextView
-        android:id="@+id/weeklyHoursField"
-        android:text="Weekly Hours:"
+        android:id="@+id/weeklyHoursText"
+        android:text="Hours This Week"
+        android:textSize="18dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
         android:layout_below="@+id/curHoursField"
-        android:layout_alignLeft="@+id/curHoursField"
-        android:layout_alignStart="@+id/curHoursField" />
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:id="@+id/weeklyHoursOutput"
+        android:textSize="18dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/weeklyHoursText"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"/>
+
+
+    <TextView
+        android:id="@+id/curHoursField"
+        android:textSize="18dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:layout_below="@+id/signButton"
+        android:layout_centerHorizontal="true" />
 
 
 </RelativeLayout>
