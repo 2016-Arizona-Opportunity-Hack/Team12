@@ -18,7 +18,10 @@
         <activity
             android:name=".sign_in_activity_classes.WaiverActivity"
             android:label="@string/title_activity_waiver"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:exported="true">
+
+        </activity>
     </application>
 
 </manifest>

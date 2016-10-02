@@ -1,8 +1,12 @@
 package com.example.yifan.hopeforhungerapp.sign_in_activity_classes;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -17,6 +21,8 @@ public class SignInActivity extends AppCompatActivity {
     private ListView mVolunteers;
     private ArrayAdapter<Volunteer> volunteerArrayAdapter;
     private ArrayList<Volunteer> volunteers;
+
+    private static final String LOG_TAG = SignInActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +41,25 @@ public class SignInActivity extends AppCompatActivity {
         mVolunteers.setAdapter(volunteerArrayAdapter);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.add_new_volunteer, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.add_new_volunteer:
+                Log.i(LOG_TAG, "going to waiver activity");
+                Intent waiverIntent = new Intent(getApplicationContext(), WaiverActivity.class);
+                startActivityForResult(waiverIntent, 1);
+                return true;
+
+            default:
+                return false;
+        }
+    }
 
     private void createDummyData(){
         for(int i = 0; i < 5; i++){

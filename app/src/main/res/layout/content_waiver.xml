@@ -8,12 +8,21 @@
     tools:context="com.example.yifan.hopeforhungerapp.sign_in_activity_classes.WaiverActivity"
     tools:showIn="@layout/activity_waiver">
 
-    <TextView
+
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:text="@string/large_text" />
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:text="@string/large_text" />
 
+        <include layout="@layout/waiver_signiture" />
+
+    </LinearLayout>
 
 
 </android.support.v4.widget.NestedScrollView>
