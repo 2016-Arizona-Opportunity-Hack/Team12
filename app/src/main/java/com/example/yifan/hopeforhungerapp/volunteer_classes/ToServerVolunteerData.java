@@ -9,8 +9,8 @@ import java.util.HashMap;
  */
 
 public class ToServerVolunteerData {
-    private String name;
-    private HashMap<String, Double> workedHoursPerDay;
+    public String name;
+    public HashMap<String, Double> workedHoursPerDay;
 
     public ToServerVolunteerData(String name, HashMap<String, Double> map){
         this.name = name;

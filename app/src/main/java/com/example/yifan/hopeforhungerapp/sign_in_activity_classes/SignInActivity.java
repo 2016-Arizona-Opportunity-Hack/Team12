@@ -3,6 +3,7 @@ package com.example.yifan.hopeforhungerapp.sign_in_activity_classes;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -27,6 +28,15 @@ import com.example.yifan.hopeforhungerapp.volunteer_classes.Volunteer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -35,6 +45,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.StreamCorruptedException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Set;
 
 public class SignInActivity extends AppCompatActivity implements SignInCommunicator{
 
@@ -176,15 +188,37 @@ public class SignInActivity extends AppCompatActivity implements SignInCommunica
             case R.id.upload_data:
                 Log.i(LOG_TAG, "upload");
                 ArrayList<ToServerVolunteerData> data = new ArrayList<>();
-                for(Volunteer vol: volunteers){
-                    data.add(vol.getToServerVolunteerData());
+
+                File sdCard = Environment.getExternalStorageDirectory();
+                File directory = new File(sdCard.getAbsolutePath() + "/excelgen");
+                if(!directory.isDirectory()){
+                    directory.mkdirs();
                 }
-                GsonBuilder builder = new GsonBuilder();
-                builder.setPrettyPrinting();
-                Gson gson = builder.create();
-                String json = gson.toJson(data);
-                Log.i(LOG_TAG, json);
-                new SendDataTask().execute(json);
+
+                HSSFWorkbook workbook = new HSSFWorkbook();
+                HSSFSheet sheet = workbook.createSheet();
+                Row datesRow = sheet.createRow(0);
+                for(int i = 1; i < 31; i++){
+                    Cell dateCell = datesRow.createCell(i);
+                    String asdf = "10/"+String.valueOf(i)+"/2016";
+                    dateCell.setCellValue(asdf);
+                }
+
+                for(Volunteer vol: volunteers){
+                    ToServerVolunteerData temp = vol.getToServerVolunteerData();
+                    String fdsa = temp.name;
+                    HashMap<String, Double> mp = temp.workedHoursPerDay;
+                    Set<String> ok = mp.keySet();
+
+
+                }
+
+
+
+                File file = new File(directory, "records");
+
+
+
 
 
             default:
