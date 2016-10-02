@@ -86,5 +86,6 @@ public class SignInActivity extends AppCompatActivity implements SignInCommunica
     @Override
     public void signIn(Volunteer newVolunteer) {
 
+
     }
 }
