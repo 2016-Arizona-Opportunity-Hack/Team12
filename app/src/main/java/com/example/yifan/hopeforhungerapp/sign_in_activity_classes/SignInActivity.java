@@ -45,7 +45,7 @@ public class SignInActivity extends AppCompatActivity implements SignInCommunica
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         setSupportActionBar(toolbar);
         if(toolbar != null){
-            toolbar.setTitle("Sign In");
+            getSupportActionBar().setTitle("Sign In");
             toolbar.setTitleTextColor(0xFFFFFFFF);
         }
         volunteers = new ArrayList<>();
