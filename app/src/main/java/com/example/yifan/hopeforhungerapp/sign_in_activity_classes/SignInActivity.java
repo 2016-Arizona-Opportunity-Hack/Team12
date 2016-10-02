@@ -18,6 +18,7 @@ import android.widget.ListView;
 
 import com.example.yifan.hopeforhungerapp.ApplicationConstants;
 import com.example.yifan.hopeforhungerapp.R;
+import com.example.yifan.hopeforhungerapp.SendDataTask;
 import com.example.yifan.hopeforhungerapp.SignInFragment;
 import com.example.yifan.hopeforhungerapp.volunteer_classes.BenevolentVolunteer;
 import com.example.yifan.hopeforhungerapp.volunteer_classes.ToServerVolunteerData;
@@ -78,6 +79,11 @@ public class SignInActivity extends AppCompatActivity implements SignInCommunica
         });
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -104,7 +110,7 @@ public class SignInActivity extends AppCompatActivity implements SignInCommunica
                 Gson gson = builder.create();
                 String json = gson.toJson(data);
                 Log.i(LOG_TAG, json);
-
+                new SendDataTask().execute(json);
 
 
             default:

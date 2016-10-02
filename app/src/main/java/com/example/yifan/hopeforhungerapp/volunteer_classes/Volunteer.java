@@ -7,6 +7,7 @@ import com.example.yifan.hopeforhungerapp.Day;
 import com.example.yifan.hopeforhungerapp.TimeWorked;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -38,7 +39,9 @@ public abstract class Volunteer implements Parcelable, Serializable {
 
     public void addNewVolunteerEntry(TimeWorked timeWorked){
         Day key = Day.getInstance();
-        double hoursDecimal = timeWorked.hours + (timeWorked.minutes/60);
+        double hoursDecimal = timeWorked.hours + ((double)timeWorked.minutes/60.0);
+        DecimalFormat df = new DecimalFormat("#.##");
+        hoursDecimal = Double.valueOf(df.format(hoursDecimal));
         if(map.containsKey(key.toString())){
             map.put(key.toString(), map.get(key) + hoursDecimal);
         }
