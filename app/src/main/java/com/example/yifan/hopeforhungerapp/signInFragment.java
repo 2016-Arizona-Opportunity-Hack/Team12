@@ -27,12 +27,12 @@ public class signInFragment extends Fragment {
 
     private static final String VOLUNTEER_NAME = "Name";
     private static final String SIGN_IN_BOOL = "signedIn";
-    private static final String CURRENT_HOURS = "0";
-    private static final String WEEKLY_HOURS = "0";
+    private static final String CURRENT_HOURS = "CurrentHours";
+    private static final String WEEKLY_HOURS = "WeeklyHours";
 
     private SignInActivity hostActivity;
-
     private View view;
+    private Volunteer volunteer;
 
     //pass a Volunteer object to the fragment, along with String 'name' and boolean 'signedIn'
     public static signInFragment newInstance(Volunteer volunteer){
@@ -61,6 +61,7 @@ public class signInFragment extends Fragment {
         hourLabelsSet(currentHours, weeklyHours);
         setButtonText(vSignStatus);
         textViewSetUp(name);
+        setupButton(vSignStatus);
         return view;
     }
 
@@ -89,5 +90,24 @@ public class signInFragment extends Fragment {
         vName.setText(volunteerName);
     }
 
-    //Create a button listener
+    /*Create a button listener that returns a boolean value which will be set to true if the user 'Signs In'
+    or false if the button is 'Signs Out'.
+    Also, if the user wishes to sign out, a textView will appear asking the user if they want to sign out
+     */
+    private void setupButton(final boolean signedInStatus){
+        Button signInButton = (Button)view.findViewById(R.id.signButton);
+        signInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //set the signed in status to false if current value of signed in is true
+                if(signedInStatus){
+                    volunteer.setSignedIn(false);
+                }else{  //Make toast for this later
+                    volunteer.setSignedIn(true);
+                }
+            }
+        });
+
+
+    }
 }
