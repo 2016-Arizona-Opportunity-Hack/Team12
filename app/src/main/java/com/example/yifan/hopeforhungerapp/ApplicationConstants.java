@@ -12,6 +12,7 @@ public class ApplicationConstants {
     public final static String NAME = "Names";
     public final static String DATE = "Date";
     public final static String PHONE = "Phone";
+    public final static String INTERNAL_STORAGE = "InternalStorage";
 
 
     public static TimeWorked getTimeDifference(Date start, Date end){

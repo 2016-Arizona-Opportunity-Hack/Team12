@@ -1,6 +1,7 @@
 package com.example.yifan.hopeforhungerapp.sign_in_activity_classes;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
@@ -26,6 +27,13 @@ import com.example.yifan.hopeforhungerapp.volunteer_classes.Volunteer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.StreamCorruptedException;
 import java.util.ArrayList;
 
 public class SignInActivity extends AppCompatActivity implements SignInCommunicator{
@@ -48,8 +56,16 @@ public class SignInActivity extends AppCompatActivity implements SignInCommunica
             getSupportActionBar().setTitle("Sign In");
             toolbar.setTitleTextColor(0xFFFFFFFF);
         }
-        volunteers = new ArrayList<>();
+        if(savedInstanceState != null){
+            volunteers = savedInstanceState.getParcelableArrayList("arraylist");
+        }
+        else {
+            volunteers = load();
+        }
+
+
         //createDummyData();
+
         volunteerArrayAdapter = new VolunteerAdapter(getApplicationContext(), R.layout.single_volunteer_layout, volunteers);
         mVolunteers = (ListView) findViewById(R.id.volunteer_listview);
         mVolunteers.setAdapter(volunteerArrayAdapter);
@@ -78,11 +94,69 @@ public class SignInActivity extends AppCompatActivity implements SignInCommunica
             }
         });
     }
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList("arraylist", volunteers);
+    }
 
     @Override
     protected void onPause() {
         super.onPause();
+        FileOutputStream fos = null;
+        ObjectOutputStream oos = null;
+        try {
+            fos = openFileOutput(ApplicationConstants.INTERNAL_STORAGE, Context.MODE_PRIVATE);
+            oos = new ObjectOutputStream(fos);
+            oos.writeObject(volunteers);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try{
+                if (fos != null){
+                    fos.close();
+                }
+                if (oos != null){
+                    oos.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
+    private ArrayList<Volunteer> load(){
+        FileInputStream fis = null;
+        ObjectInputStream ois = null;
+        try {
+            fis = openFileInput(ApplicationConstants.INTERNAL_STORAGE);
+            ois = new ObjectInputStream(fis);
+            return (ArrayList<Volunteer>) ois.readObject();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (StreamCorruptedException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        finally {
+            try{
+                if(fis != null){
+                    fis.close();
+                }
+                if(ois != null){
+                    ois.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return new ArrayList<>();
     }
 
     @Override

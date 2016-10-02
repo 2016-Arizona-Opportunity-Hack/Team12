@@ -38,15 +38,6 @@ public class WaiverActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Waiver");
         toolbar.setTitleTextColor(0xFFFFFFFF);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
         submitBtn = (Button) findViewById(R.id.submit_btn);
         signitureCheckBox = (CheckBox) findViewById(R.id.agreement_checkbox);
         addressField = (EditText) findViewById(R.id.address_field);
