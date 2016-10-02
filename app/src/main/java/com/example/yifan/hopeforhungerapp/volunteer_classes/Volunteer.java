@@ -39,8 +39,13 @@ public abstract class Volunteer implements Parcelable, Serializable {
     public void addNewVolunteerEntry(TimeWorked timeWorked){
         Day key = Day.getInstance();
         double hoursDecimal = timeWorked.hours + (timeWorked.minutes/60);
-        if(map.containsKey(key.toString()))
-        map.put(key.toString(), hoursDecimal);
+        if(map.containsKey(key.toString())){
+            map.put(key.toString(), map.get(key) + hoursDecimal);
+        }
+        else{
+            map.put(key.toString(), hoursDecimal);
+        }
+
     }
 
     public String getName() {
