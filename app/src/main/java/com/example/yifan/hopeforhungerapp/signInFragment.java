@@ -6,18 +6,14 @@ package com.example.yifan.hopeforhungerapp;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.TextViewCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.EditText;
 
 import com.example.yifan.hopeforhungerapp.sign_in_activity_classes.SignInActivity;
 import com.example.yifan.hopeforhungerapp.volunteer_classes.Volunteer;
-
-import static android.R.attr.button;
 
 /*
 When the user clicks on one of the cells in the ListView it will inflate this fragment

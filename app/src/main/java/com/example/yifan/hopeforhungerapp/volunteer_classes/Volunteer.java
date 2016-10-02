@@ -1,5 +1,8 @@
 package com.example.yifan.hopeforhungerapp.volunteer_classes;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -7,7 +10,7 @@ import java.util.Date;
  * Created by Yifan on 10/1/2016.
  */
 
-public abstract class Volunteer {
+public abstract class Volunteer implements Parcelable {
     private String name;
     private String address;
     private String phoneNum;
@@ -89,4 +92,61 @@ public abstract class Volunteer {
     public void setStartTime(Date startTime) {
         this.startTime = startTime;
     }
+
+    protected Volunteer(Parcel in) {
+        name = in.readString();
+        address = in.readString();
+        phoneNum = in.readString();
+        if (in.readByte() == 0x01) {
+            physicalLimitations = new ArrayList<String>();
+            in.readList(physicalLimitations, String.class.getClassLoader());
+        } else {
+            physicalLimitations = null;
+        }
+        signUpDate = in.readString();
+        signedIn = in.readByte() != 0x00;
+        currentHoursWorked = in.readInt();
+        weeklyHoursWorked = in.readInt();
+        long tmpStartTime = in.readLong();
+        startTime = tmpStartTime != -1 ? new Date(tmpStartTime) : null;
+        long tmpEndTime = in.readLong();
+        endTime = tmpEndTime != -1 ? new Date(tmpEndTime) : null;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeString(address);
+        dest.writeString(phoneNum);
+        if (physicalLimitations == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeList(physicalLimitations);
+        }
+        dest.writeString(signUpDate);
+        dest.writeByte((byte) (signedIn ? 0x01 : 0x00));
+        dest.writeInt(currentHoursWorked);
+        dest.writeInt(weeklyHoursWorked);
+        dest.writeLong(startTime != null ? startTime.getTime() : -1L);
+        dest.writeLong(endTime != null ? endTime.getTime() : -1L);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Volunteer> CREATOR = new Parcelable.Creator<Volunteer>() {
+        @Override
+        public Volunteer createFromParcel(Parcel in) {
+            return new Volunteer(in);
+        }
+
+        @Override
+        public Volunteer[] newArray(int size) {
+            return new Volunteer[size];
+        }
+    };
 }

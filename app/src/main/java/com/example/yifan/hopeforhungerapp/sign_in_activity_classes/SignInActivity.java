@@ -2,10 +2,12 @@ package com.example.yifan.hopeforhungerapp.sign_in_activity_classes;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +17,7 @@ import android.widget.ListView;
 
 import com.example.yifan.hopeforhungerapp.ApplicationConstants;
 import com.example.yifan.hopeforhungerapp.R;
+import com.example.yifan.hopeforhungerapp.SignInFragment;
 import com.example.yifan.hopeforhungerapp.volunteer_classes.BenevolentVolunteer;
 import com.example.yifan.hopeforhungerapp.volunteer_classes.Volunteer;
 
@@ -25,6 +28,7 @@ public class SignInActivity extends AppCompatActivity implements SignInCommunica
     private ListView mVolunteers;
     private ArrayAdapter<Volunteer> volunteerArrayAdapter;
     private ArrayList<Volunteer> volunteers;
+    private DrawerLayout drawer;
 
     private static final String LOG_TAG = SignInActivity.class.getSimpleName();
 
@@ -33,6 +37,7 @@ public class SignInActivity extends AppCompatActivity implements SignInCommunica
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
         Toolbar toolbar = (Toolbar) findViewById(R.id.sign_in_toolbar);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         setSupportActionBar(toolbar);
         if(toolbar != null){
             toolbar.setTitle("Sign In");
@@ -46,8 +51,13 @@ public class SignInActivity extends AppCompatActivity implements SignInCommunica
         mVolunteers.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d(LOG_TAG, "item cliked position: " + position);
                 Volunteer selected = volunteers.get(position);
-
+                SignInFragment fragment = SignInFragment.newInstance(selected);
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.sign_in_fragment_container, fragment)
+                        .commit();
+                drawer.openDrawer(Gravity.RIGHT);
             }
         });
     }
