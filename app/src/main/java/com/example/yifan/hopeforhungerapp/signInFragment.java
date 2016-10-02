@@ -23,7 +23,7 @@ import static android.R.attr.button;
 When the user clicks on one of the cells in the ListView it will inflate this fragment
  */
 //inherit from fragment class
-public class signInFragment extends Fragment {
+public class SignInFragment extends Fragment {
 
     private static final String VOLUNTEER_NAME = "Name";
     private static final String SIGN_IN_BOOL = "signedIn";
@@ -35,8 +35,8 @@ public class signInFragment extends Fragment {
     private Volunteer volunteer;
 
     //pass a Volunteer object to the fragment, along with String 'name' and boolean 'signedIn'
-    public static signInFragment newInstance(Volunteer volunteer){
-        signInFragment sIF = new signInFragment();
+    public static SignInFragment newInstance(Volunteer volunteer){
+        SignInFragment sIF = new SignInFragment();
         Bundle bundle = new Bundle();   //Use bundle to pass data to fragment
         bundle.putString(VOLUNTEER_NAME, volunteer.getName());      //gets the name from the volunteer
         bundle.putBoolean(SIGN_IN_BOOL, volunteer.isSignedIn());    //gets boolean signedIn value

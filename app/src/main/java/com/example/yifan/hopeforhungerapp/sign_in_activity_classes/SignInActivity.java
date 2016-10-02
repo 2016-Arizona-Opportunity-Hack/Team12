@@ -8,6 +8,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -41,6 +43,13 @@ public class SignInActivity extends AppCompatActivity implements SignInCommunica
         volunteerArrayAdapter = new VolunteerAdapter(getApplicationContext(), R.layout.single_volunteer_layout, volunteers);
         mVolunteers = (ListView) findViewById(R.id.volunteer_listview);
         mVolunteers.setAdapter(volunteerArrayAdapter);
+        mVolunteers.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Volunteer selected = volunteers.get(position);
+
+            }
+        });
     }
 
     @Override
