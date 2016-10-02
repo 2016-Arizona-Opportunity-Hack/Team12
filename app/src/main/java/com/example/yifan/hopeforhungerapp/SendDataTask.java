@@ -27,7 +27,7 @@ public class SendDataTask extends AsyncTask<String, Void, Void> {
 
     public void sendData(Map<String, String> paramsMap) {
         String result = "";
-        final String urlStr = "temp";
+        final String urlStr = "http://localhost:8080/";
         URL serverUrl = null;
         try {
             serverUrl = new URL(urlStr);
