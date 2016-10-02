@@ -18,6 +18,9 @@ public abstract class Volunteer {
     private int currentHoursWorked;
     private int weeklyHoursWorked;
 
+    transient private Date startTime;
+    transient private Date endTime;
+
 
     public String getName() {
         return name;
@@ -63,4 +66,19 @@ public abstract class Volunteer {
         return signUpTime;
     }
 
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
 }
