@@ -68,7 +68,7 @@ public class SignInFragment extends Fragment {
     private void hourLabelsSet(int currentHours, int weeklyHours)
     {
         TextView curHours = (TextView)view.findViewById(R.id.curHoursField);
-        TextView weekHours = (TextView)view.findViewById(R.id.weeklyHoursField);
+        TextView weekHours = (TextView)view.findViewById(R.id.weeklyHoursOutput);
         String temp;
         if(volunteer.isSignedIn()){
             TimeWorked diff = ApplicationConstants.getTimeDifference(volunteer.getStartTime(), volunteer.getEndTime());
