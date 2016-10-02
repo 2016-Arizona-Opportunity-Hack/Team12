@@ -16,7 +16,7 @@ import com.example.yifan.hopeforhungerapp.volunteer_classes.Volunteer;
 
 import java.util.ArrayList;
 
-public class SignInActivity extends AppCompatActivity {
+public class SignInActivity extends AppCompatActivity implements SignInCommunicator{
 
     private ListView mVolunteers;
     private ArrayAdapter<Volunteer> volunteerArrayAdapter;
@@ -65,5 +65,10 @@ public class SignInActivity extends AppCompatActivity {
         for(int i = 0; i < 5; i++){
             volunteers.add(new BenevolentVolunteer("Person" + i, "address", "12345"));
         }
+    }
+
+    @Override
+    public void signIn(Volunteer newVolunteer) {
+
     }
 }
