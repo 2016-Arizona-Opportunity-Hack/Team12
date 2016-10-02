@@ -23,7 +23,7 @@ public abstract class Volunteer implements Parcelable, Serializable {
     String guardian;
     ArrayList<String> physicalLimitations;
     String signUpDate;
-    boolean signedIn;
+    transient boolean signedIn;
 
     HashMap<String, Double> map = new HashMap<>();
 
