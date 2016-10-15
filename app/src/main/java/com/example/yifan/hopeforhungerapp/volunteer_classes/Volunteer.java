@@ -5,6 +5,7 @@ import android.os.Parcelable;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 
@@ -51,6 +52,9 @@ public class Volunteer implements Serializable {
     }
 
     private double getTimeDifference(){
+        Date start = signInTime.getTime();
+        Date end = signInTime.getTime();
+
 
     }
 
