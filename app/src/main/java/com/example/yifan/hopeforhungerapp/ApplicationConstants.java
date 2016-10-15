@@ -16,7 +16,6 @@ public class ApplicationConstants {
 
 
     public static TimeWorked getTimeDifference(Date start, Date end){
-        TimeWorked diff = new TimeWorked();
         long timeDiff = end.getTime() - start.getTime();
         if(start.after(end)){
             return diff;

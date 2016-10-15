@@ -3,7 +3,6 @@ package com.example.yifan.hopeforhungerapp.sign_in_activity_classes;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -20,23 +19,8 @@ import android.widget.ListView;
 
 import com.example.yifan.hopeforhungerapp.ApplicationConstants;
 import com.example.yifan.hopeforhungerapp.R;
-import com.example.yifan.hopeforhungerapp.SendDataTask;
-import com.example.yifan.hopeforhungerapp.SignInFragment;
-import com.example.yifan.hopeforhungerapp.volunteer_classes.BenevolentVolunteer;
-import com.example.yifan.hopeforhungerapp.volunteer_classes.ToServerVolunteerData;
 import com.example.yifan.hopeforhungerapp.volunteer_classes.Volunteer;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -45,8 +29,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.StreamCorruptedException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Set;
 
 public class SignInActivity extends AppCompatActivity implements SignInCommunicator{
 
@@ -69,7 +51,7 @@ public class SignInActivity extends AppCompatActivity implements SignInCommunica
             toolbar.setTitleTextColor(0xFFFFFFFF);
         }
         if(savedInstanceState != null){
-            volunteers = savedInstanceState.getParcelableArrayList("arraylist");
+
         }
         else {
             volunteers = load();
@@ -84,24 +66,6 @@ public class SignInActivity extends AppCompatActivity implements SignInCommunica
         mVolunteers.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d(LOG_TAG, "item cliked position: " + position);
-                Volunteer selected = volunteers.get(position);
-                Fragment f = getSupportFragmentManager().findFragmentByTag("sign_in_fragment");
-                if(f != null && f instanceof SignInFragment){
-                    SignInFragment fragment = SignInFragment.newInstance(selected);
-                    getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.sign_in_fragment_container, fragment, "sign_in_fragment")
-                            .commit();
-                    drawer.openDrawer(Gravity.RIGHT);
-                }
-                else{
-                    SignInFragment fragment = SignInFragment.newInstance(selected);
-                    getSupportFragmentManager().beginTransaction()
-                            .add(R.id.sign_in_fragment_container, fragment, "sign_in_fragment")
-                            .commit();
-                    drawer.openDrawer(Gravity.RIGHT);
-                }
-
 
             }
         });
@@ -187,9 +151,11 @@ public class SignInActivity extends AppCompatActivity implements SignInCommunica
                 return true;
             case R.id.upload_data:
                 Log.i(LOG_TAG, "upload");
-                ArrayList<ToServerVolunteerData> data = new ArrayList<>();
+                return true;
+            default:
+                return false;
 
-                File sdCard = Environment.getExternalStorageDirectory();
+               /* File sdCard = Environment.getExternalStorageDirectory();
                 File directory = new File(sdCard.getAbsolutePath() + "/excelgen");
                 if(!directory.isDirectory()){
                     directory.mkdirs();
@@ -210,21 +176,20 @@ public class SignInActivity extends AppCompatActivity implements SignInCommunica
                     HashMap<String, Double> mp = temp.workedHoursPerDay;
                     Set<String> ok = mp.keySet();
 
-
+*/
                 }
 
 
 
-                File file = new File(directory, "records");
+                /*File file = new File(directory, "records");*/
 
 
 
 
 
-            default:
-                return false;
+
         }
-    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -235,14 +200,14 @@ public class SignInActivity extends AppCompatActivity implements SignInCommunica
             String nameStr = data.getStringExtra(ApplicationConstants.NAME);
             String dateStr = data.getStringExtra(ApplicationConstants.DATE);
             String phoneStr = data.getStringExtra(ApplicationConstants.PHONE);
-            volunteers.add(new BenevolentVolunteer(nameStr, addressStr, phoneStr, guardianStr, dateStr));
+            //volunteers.add(new BenevolentVolunteer(nameStr, addressStr, phoneStr, guardianStr, dateStr));
             volunteerArrayAdapter.notifyDataSetChanged();
         }
     }
 
     private void createDummyData(){
         for(int i = 0; i < 5; i++){
-            volunteers.add(new BenevolentVolunteer("Person" + i, "address", "12345", "asdf", "sadfadsf"));
+            //volunteers.add(new BenevolentVolunteer("Person" + i, "address", "12345", "asdf", "sadfadsf"));
         }
     }
 
