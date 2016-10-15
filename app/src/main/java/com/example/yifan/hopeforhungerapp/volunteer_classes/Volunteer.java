@@ -3,6 +3,8 @@ package com.example.yifan.hopeforhungerapp.volunteer_classes;
 import android.os.Parcelable;
 
 import java.io.Serializable;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -50,10 +52,19 @@ public class Volunteer implements Serializable {
         return getTimeDifference();
 
     }
-
+    //Calculating the difference in hours between the two date objects
     private double getTimeDifference(){
-        Date start = signInTime.getTime();
-        Date end = signInTime.getTime();
+        Date start = signInTime.getTime();  //set start date to signIn current time stamp
+        Date end = signOutTime.getTime();   //set end date to signOut current time stamp
+        double timeDifference = end.getTime() - start.getTime();    //Get the difference in time
+        double hoursDifference = timeDifference / (1000*60*60) % 24;    //Get the difference in hours in double format
+        //Create decimal format
+        double formattedHours = Math.floor(hoursDifference * 100)/100;
+        return formattedHours;
+
+
+
+
 
 
     }

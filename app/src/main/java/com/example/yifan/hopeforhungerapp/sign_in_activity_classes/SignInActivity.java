@@ -34,10 +34,11 @@ public class SignInActivity extends AppCompatActivity implements SignInCommunica
 
     private ListView mVolunteers;
     private ArrayAdapter<Volunteer> volunteerArrayAdapter;
-    private ArrayList<Volunteer> volunteers;
+    private ArrayList<Volunteer> volunteers;    //save this when flipping
     private DrawerLayout drawer;
 
     private static final String LOG_TAG = SignInActivity.class.getSimpleName();
+    private static final String SAVED_INSTANCE_VOLUNTEERS = "SavedInstanceVolunteers";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
