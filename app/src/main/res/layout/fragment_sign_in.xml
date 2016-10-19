@@ -6,37 +6,6 @@
     tools:context="com.example.yifan.hopeforhungerapp.sign_in_activity_classes.SignInFragment">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:id="@+id/HFH_company"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
-
-        <android.support.v4.widget.Space
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.3"/>
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.4"
-            android:minHeight="100dp"
-            android:textSize="30sp"
-            android:src="@mipmap/HFH_logo"
-            android:scaleType="fitCenter"
-            android:gravity="center"
-            />
-
-        <android.support.v4.widget.Space
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.3"/>
-    </LinearLayout>
-
-    <LinearLayout
         android:paddingTop="10dp"
         android:layout_below="@+id/HFH_company"
         android:layout_width="match_parent"
@@ -53,6 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.8"
             android:text="(Volunteer First Name)"
+            android:textStyle="bold"
             android:textSize="25sp"
             android:gravity="center"
             android:maxLines="1"
@@ -81,6 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.8"
             android:text="(Volunteer Last Name)"
+            android:textStyle="bold"
             android:textSize="25sp"
             android:gravity="center"
             android:maxLines="1"
@@ -101,7 +72,7 @@
         android:layout_below="@+id/last_name_space"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:paddingTop="50dp"
+        android:paddingTop="25dp"
         android:gravity="center_horizontal">
 
         <TextView
@@ -109,17 +80,16 @@
             android:layout_height="wrap_content"
             android:text="(Sign In)"
             android:textSize="15sp"/>
-        <android.support.v4.widget.Space
-            android:layout_width="match_parent"
-            android:layout_height="10dp" />
 
         <android.support.design.widget.FloatingActionButton
+            android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true"
+            app:backgroundTint="@color/white"
             app:fabSize="normal"
             app:srcCompat="@mipmap/check_mark"
-            android:id="@+id/floatingActionButton" />
+            android:id="@+id/sign_in_fab" />
 
 
     </LinearLayout>
@@ -150,7 +120,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="12/12/12"
+                android:text="12/12/2012"
                 android:gravity="end"
                 android:textStyle="bold"
                 android:textSize="20sp"
@@ -208,7 +178,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Check Out:"
+                android:text="Current Time:"
                 android:textSize="20sp"
                 android:layout_weight="0.4"/>
             <TextView
@@ -250,7 +220,7 @@
                 android:textSize="20sp"
                 android:gravity="end"
                 android:textStyle="bold"
-                android:id="@+id/elapsed_tv"
+                android:id="@+id/elapsed_time_tv"
                 android:layout_weight="0.3"/>
             <android.support.v4.widget.Space
                 android:layout_width="0dp"
@@ -260,6 +230,37 @@
         </LinearLayout>
 
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/HFH_company"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <android.support.v4.widget.Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"/>
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4"
+            android:minHeight="100dp"
+            android:textSize="30sp"
+            android:src="@mipmap/hfh_logo"
+            android:scaleType="fitCenter"
+            android:gravity="center"
+            />
+
+        <android.support.v4.widget.Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"/>
     </LinearLayout>
 
 

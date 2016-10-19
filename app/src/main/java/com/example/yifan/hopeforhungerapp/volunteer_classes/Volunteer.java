@@ -4,8 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.io.Serializable;
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -16,7 +14,8 @@ import java.util.HashMap;
 public class Volunteer implements Serializable, Parcelable{
 
     private static ArrayList<Volunteer> volunteers;
-    private String name;
+    private String firstName;
+    private String lastName;
     private String address;
     private String phoneNum;
     private String guardian;
@@ -25,18 +24,19 @@ public class Volunteer implements Serializable, Parcelable{
     private transient Calendar signInTime;
     private transient Calendar signOutTime;
 
-    HashMap<Calendar, Double> hoursForCalanderDayMap;
+    private HashMap<String, Double> hoursForCalanderDayMap;
 
-    private Volunteer(String name, String address, String phoneNum, String guardian) {
-        this.name = name;
+    private Volunteer(String firstName, String lastName, String address, String phoneNum, String guardian) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.address = address;
         this.phoneNum = phoneNum;
         this.guardian = guardian;
         this.hoursForCalanderDayMap = new HashMap<>();
     }
 
-    public void addNewVolunteer(String name, String address, String phoneNum, String guardian){
-        volunteers.add(new Volunteer(name, address, phoneNum, guardian));
+    public void addNewVolunteer(String firstName, String lastName, String address, String phoneNum, String guardian){
+        volunteers.add(new Volunteer(firstName, lastName, address, phoneNum, guardian));
     }
 
     public void signIn(){
@@ -59,56 +59,43 @@ public class Volunteer implements Serializable, Parcelable{
         //Create decimal format
         double formattedHours = Math.floor(hoursDifference * 100)/100;
         return formattedHours;
-
-
-
-
-
-
     }
 
-    protected Volunteer(Parcel in) {
-        name = in.readString();
-        address = in.readString();
-        phoneNum = in.readString();
-        guardian = in.readString();
-        signedIn = in.readByte() != 0x00;
-        signInTime = (Calendar) in.readValue(Calendar.class.getClassLoader());
-        signOutTime = (Calendar) in.readValue(Calendar.class.getClassLoader());
-        hoursForCalanderDayMap = (HashMap) in.readValue(HashMap.class.getClassLoader());
+
+
+    public static ArrayList<Volunteer> getVolunteers() {
+        return volunteers;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public String getFirstName() {
+        return firstName;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(name);
-        dest.writeString(address);
-        dest.writeString(phoneNum);
-        dest.writeString(guardian);
-        dest.writeByte((byte) (signedIn ? 0x01 : 0x00));
-        dest.writeValue(signInTime);
-        dest.writeValue(signOutTime);
-        dest.writeValue(hoursForCalanderDayMap);
+    public String getLastName() {
+        return lastName;
     }
 
-    @SuppressWarnings("unused")
-    public static final Parcelable.Creator<Volunteer> CREATOR = new Parcelable.Creator<Volunteer>() {
-        @Override
-        public Volunteer createFromParcel(Parcel in) {
-            return new Volunteer(in);
-        }
+    public String getAddress() {
+        return address;
+    }
 
-        @Override
-        public Volunteer[] newArray(int size) {
-            return new Volunteer[size];
-        }
-    };
+    public String getPhoneNum() {
+        return phoneNum;
+    }
 
+    public String getGuardian() {
+        return guardian;
+    }
 
+    public boolean isSignedIn() {
+        return signedIn;
+    }
 
+    public Calendar getSignInTime() {
+        return signInTime;
+    }
 
+    public Calendar getSignOutTime() {
+        return signOutTime;
+    }
 }

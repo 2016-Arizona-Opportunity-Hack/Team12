@@ -30,11 +30,11 @@ import java.io.ObjectOutputStream;
 import java.io.StreamCorruptedException;
 import java.util.ArrayList;
 
-public class SignInActivity extends AppCompatActivity implements SignInCommunicator{
+public class SignInActivity extends AppCompatActivity implements SignInCommunicator {
 
     private ListView mVolunteers;
     private ArrayAdapter<Volunteer> volunteerArrayAdapter;
-    private ArrayList<Volunteer> volunteers;    //save this when flipping
+    private ArrayList<Volunteer> volunteers;
     private DrawerLayout drawer;
 
     private static final String LOG_TAG = SignInActivity.class.getSimpleName();
@@ -47,14 +47,13 @@ public class SignInActivity extends AppCompatActivity implements SignInCommunica
         Toolbar toolbar = (Toolbar) findViewById(R.id.sign_in_toolbar);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         setSupportActionBar(toolbar);
-        if(toolbar != null){
+        if (toolbar != null) {
             getSupportActionBar().setTitle("Sign In");
             toolbar.setTitleTextColor(0xFFFFFFFF);
         }
-        if(savedInstanceState != null){
+        if (savedInstanceState != null) {
 
-        }
-        else {
+        } else {
             volunteers = load();
         }
 
@@ -64,13 +63,14 @@ public class SignInActivity extends AppCompatActivity implements SignInCommunica
         volunteerArrayAdapter = new VolunteerAdapter(getApplicationContext(), R.layout.single_volunteer_layout, volunteers);
         mVolunteers = (ListView) findViewById(R.id.volunteer_listview);
         mVolunteers.setAdapter(volunteerArrayAdapter);
-        mVolunteers.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+        mVolunteers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
             }
         });
     }
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -91,11 +91,11 @@ public class SignInActivity extends AppCompatActivity implements SignInCommunica
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            try{
-                if (fos != null){
+            try {
+                if (fos != null) {
                     fos.close();
                 }
-                if (oos != null){
+                if (oos != null) {
                     oos.close();
                 }
             } catch (IOException e) {
@@ -104,7 +104,7 @@ public class SignInActivity extends AppCompatActivity implements SignInCommunica
         }
     }
 
-    private ArrayList<Volunteer> load(){
+    private ArrayList<Volunteer> load() {
         FileInputStream fis = null;
         ObjectInputStream ois = null;
         try {
@@ -120,13 +120,12 @@ public class SignInActivity extends AppCompatActivity implements SignInCommunica
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-        }
-        finally {
-            try{
-                if(fis != null){
+        } finally {
+            try {
+                if (fis != null) {
                     fis.close();
                 }
-                if(ois != null){
+                if (ois != null) {
                     ois.close();
                 }
             } catch (IOException e) {
@@ -144,7 +143,7 @@ public class SignInActivity extends AppCompatActivity implements SignInCommunica
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.add_new_volunteer:
                 Log.i(LOG_TAG, "going to waiver activity");
                 Intent waiverIntent = new Intent(getApplicationContext(), WaiverActivity.class);
@@ -156,38 +155,6 @@ public class SignInActivity extends AppCompatActivity implements SignInCommunica
             default:
                 return false;
 
-
-
-
-
-
-
         }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 1 && resultCode == Activity.RESULT_OK){
-            String addressStr = data.getStringExtra(ApplicationConstants.ADDRESS);
-            String guardianStr = data.getStringExtra(ApplicationConstants.GUARDIAN);
-            String nameStr = data.getStringExtra(ApplicationConstants.NAME);
-            String dateStr = data.getStringExtra(ApplicationConstants.DATE);
-            String phoneStr = data.getStringExtra(ApplicationConstants.PHONE);
-            //volunteers.add(new BenevolentVolunteer(nameStr, addressStr, phoneStr, guardianStr, dateStr));
-            volunteerArrayAdapter.notifyDataSetChanged();
-        }
-    }
-
-    private void createDummyData(){
-        for(int i = 0; i < 5; i++){
-            //volunteers.add(new BenevolentVolunteer("Person" + i, "address", "12345", "asdf", "sadfadsf"));
-        }
-    }
-
-    @Override
-    public void signIn() {
-        volunteerArrayAdapter.notifyDataSetChanged();
-        drawer.closeDrawer(Gravity.RIGHT);
     }
 }
