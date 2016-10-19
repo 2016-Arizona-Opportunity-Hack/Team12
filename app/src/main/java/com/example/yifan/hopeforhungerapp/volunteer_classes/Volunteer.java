@@ -1,5 +1,6 @@
 package com.example.yifan.hopeforhungerapp.volunteer_classes;
 
+import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.io.Serializable;
@@ -11,11 +12,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 
-/**
- * Created by Yifan on 10/1/2016.
- */
 
-public class Volunteer implements Serializable {
+public class Volunteer implements Serializable, Parcelable{
 
     private static ArrayList<Volunteer> volunteers;
     private String name;
@@ -68,6 +66,47 @@ public class Volunteer implements Serializable {
 
 
     }
+
+    protected Volunteer(Parcel in) {
+        name = in.readString();
+        address = in.readString();
+        phoneNum = in.readString();
+        guardian = in.readString();
+        signedIn = in.readByte() != 0x00;
+        signInTime = (Calendar) in.readValue(Calendar.class.getClassLoader());
+        signOutTime = (Calendar) in.readValue(Calendar.class.getClassLoader());
+        hoursForCalanderDayMap = (HashMap) in.readValue(HashMap.class.getClassLoader());
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeString(address);
+        dest.writeString(phoneNum);
+        dest.writeString(guardian);
+        dest.writeByte((byte) (signedIn ? 0x01 : 0x00));
+        dest.writeValue(signInTime);
+        dest.writeValue(signOutTime);
+        dest.writeValue(hoursForCalanderDayMap);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Volunteer> CREATOR = new Parcelable.Creator<Volunteer>() {
+        @Override
+        public Volunteer createFromParcel(Parcel in) {
+            return new Volunteer(in);
+        }
+
+        @Override
+        public Volunteer[] newArray(int size) {
+            return new Volunteer[size];
+        }
+    };
 
 
 

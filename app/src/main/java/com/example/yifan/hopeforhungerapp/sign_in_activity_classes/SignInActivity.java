@@ -156,33 +156,6 @@ public class SignInActivity extends AppCompatActivity implements SignInCommunica
             default:
                 return false;
 
-               /* File sdCard = Environment.getExternalStorageDirectory();
-                File directory = new File(sdCard.getAbsolutePath() + "/excelgen");
-                if(!directory.isDirectory()){
-                    directory.mkdirs();
-                }
-
-                HSSFWorkbook workbook = new HSSFWorkbook();
-                HSSFSheet sheet = workbook.createSheet();
-                Row datesRow = sheet.createRow(0);
-                for(int i = 1; i < 31; i++){
-                    Cell dateCell = datesRow.createCell(i);
-                    String asdf = "10/"+String.valueOf(i)+"/2016";
-                    dateCell.setCellValue(asdf);
-                }
-
-                for(Volunteer vol: volunteers){
-                    ToServerVolunteerData temp = vol.getToServerVolunteerData();
-                    String fdsa = temp.name;
-                    HashMap<String, Double> mp = temp.workedHoursPerDay;
-                    Set<String> ok = mp.keySet();
-
-*/
-                }
-
-
-
-                /*File file = new File(directory, "records");*/
 
 
 
