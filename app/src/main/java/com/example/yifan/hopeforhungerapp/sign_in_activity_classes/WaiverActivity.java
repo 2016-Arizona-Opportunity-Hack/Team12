@@ -17,16 +17,18 @@ import android.widget.Toast;
 import com.example.yifan.hopeforhungerapp.ApplicationConstants;
 import com.example.yifan.hopeforhungerapp.R;
 
+
+
 public class WaiverActivity extends AppCompatActivity {
 
     private EditText dateField;
-    private EditText nameField;
+    private EditText firstNameField;
+    private EditText lastNameField;
     private EditText guardianField;
     private EditText addressField;
     private EditText phoneField;
     private CheckBox signitureCheckBox;
     private Button submitBtn;
-
 
 
     @Override
@@ -37,12 +39,12 @@ public class WaiverActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Waiver");
         toolbar.setTitleTextColor(0xFFFFFFFF);
-
         submitBtn = (Button) findViewById(R.id.submit_btn);
         signitureCheckBox = (CheckBox) findViewById(R.id.agreement_checkbox);
         addressField = (EditText) findViewById(R.id.address_field);
         guardianField = (EditText) findViewById(R.id.guardian_field);
-        nameField = (EditText) findViewById(R.id.name_field);
+        firstNameField = (EditText) findViewById(R.id.first_name_field);
+        lastNameField = (EditText) findViewById(R.id.last_name_field);
         dateField = (EditText) findViewById(R.id.date_field);
         phoneField = (EditText) findViewById(R.id.phone_field);
 
@@ -52,7 +54,8 @@ public class WaiverActivity extends AppCompatActivity {
         if(signitureCheckBox.isChecked()){
             String addressStr = addressField.getText().toString();
             String guardianStr = guardianField.getText().toString();
-            String nameStr = nameField.getText().toString();
+            String firstNameStr = firstNameField.getText().toString();
+            String lastNameStr = lastNameField.getText().toString();
             String dateStr = dateField.getText().toString();
             String phoneStr = phoneField.getText().toString();
             final String error = "cannot be empty";
@@ -60,9 +63,11 @@ public class WaiverActivity extends AppCompatActivity {
             if(TextUtils.isEmpty(addressStr)){
                 addressField.setError(error);
             }
-
-            if(TextUtils.isEmpty(nameStr)){
-                nameField.setError(error);
+            if(TextUtils.isEmpty(firstNameStr)){
+                firstNameField.setError(error);
+            }
+            if(TextUtils.isEmpty(lastNameStr)){
+                lastNameField.setError(error);
             }
             if(TextUtils.isEmpty(dateStr)){
                 dateField.setError(error);
@@ -75,7 +80,8 @@ public class WaiverActivity extends AppCompatActivity {
                     guardianStr = "no guardian";
                 }
                 Intent resultIntent = new Intent("intent");
-                resultIntent.putExtra(ApplicationConstants.NAME, nameStr);
+                resultIntent.putExtra(ApplicationConstants.FIRST_NAME, firstNameStr);
+                resultIntent.putExtra(ApplicationConstants.LAST_NAME, lastNameStr);
                 resultIntent.putExtra(ApplicationConstants.ADDRESS, addressStr);
                 resultIntent.putExtra(ApplicationConstants.DATE, dateStr);
                 resultIntent.putExtra(ApplicationConstants.GUARDIAN, guardianStr);

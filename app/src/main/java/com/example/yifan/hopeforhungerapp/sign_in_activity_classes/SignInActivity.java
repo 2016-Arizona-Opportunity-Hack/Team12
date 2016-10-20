@@ -30,6 +30,8 @@ import java.io.ObjectOutputStream;
 import java.io.StreamCorruptedException;
 import java.util.ArrayList;
 
+
+
 public class SignInActivity extends AppCompatActivity implements SignInCommunicator {
 
     private ListView mVolunteers;
@@ -44,8 +46,15 @@ public class SignInActivity extends AppCompatActivity implements SignInCommunica
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.sign_in_toolbar);
+        createDummyData();
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        volunteers = Volunteer.getVolunteers();
+        if(volunteers == null){
+            volunteers = new ArrayList<>();
+        }
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.sign_in_toolbar);
+
         setSupportActionBar(toolbar);
         if (toolbar != null) {
             getSupportActionBar().setTitle("Sign In");
@@ -53,20 +62,29 @@ public class SignInActivity extends AppCompatActivity implements SignInCommunica
         }
         if (savedInstanceState != null) {
 
-        } else {
-            volunteers = load();
         }
-
-
-        //createDummyData();
-
-        volunteerArrayAdapter = new VolunteerAdapter(getApplicationContext(), R.layout.single_volunteer_layout, volunteers);
+        volunteerArrayAdapter = new VolunteerAdapter(getApplicationContext(), R.layout.single_volunteer_layout, Volunteer.getVolunteers());
         mVolunteers = (ListView) findViewById(R.id.volunteer_listview);
         mVolunteers.setAdapter(volunteerArrayAdapter);
         mVolunteers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                Volunteer selected = volunteers.get(position);
+                Fragment signInFragment = getSupportFragmentManager().findFragmentByTag("sign_in_fragment");
+                if(signInFragment != null && signInFragment instanceof SignInFragment){
+                    SignInFragment fragment = SignInFragment.newInstance(selected);
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.sign_in_fragment_container, fragment, "sign_in_fragment")
+                            .commit();
+                    drawer.openDrawer(Gravity.RIGHT);
+                }
+                else{
+                    SignInFragment fragment = SignInFragment.newInstance(selected);
+                    getSupportFragmentManager().beginTransaction()
+                            .add(R.id.sign_in_fragment_container, fragment, "sign_in_fragment")
+                            .commit();
+                    drawer.openDrawer(Gravity.RIGHT);
+                }
             }
         });
     }
@@ -77,32 +95,7 @@ public class SignInActivity extends AppCompatActivity implements SignInCommunica
         outState.putParcelableArrayList("arraylist", volunteers);
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        FileOutputStream fos = null;
-        ObjectOutputStream oos = null;
-        try {
-            fos = openFileOutput(ApplicationConstants.INTERNAL_STORAGE, Context.MODE_PRIVATE);
-            oos = new ObjectOutputStream(fos);
-            oos.writeObject(volunteers);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (fos != null) {
-                    fos.close();
-                }
-                if (oos != null) {
-                    oos.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+
 
     private ArrayList<Volunteer> load() {
         FileInputStream fis = null;
@@ -156,5 +149,34 @@ public class SignInActivity extends AppCompatActivity implements SignInCommunica
                 return false;
 
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
+            String addressStr = data.getStringExtra(ApplicationConstants.ADDRESS);
+            String guardianStr = data.getStringExtra(ApplicationConstants.GUARDIAN);
+            String firstNameStr = data.getStringExtra(ApplicationConstants.FIRST_NAME);
+            String lastNameStr = data.getStringExtra(ApplicationConstants.LAST_NAME);
+            String dateStr = data.getStringExtra(ApplicationConstants.DATE);
+            String phoneStr = data.getStringExtra(ApplicationConstants.PHONE);
+            Volunteer.addNewVolunteer(firstNameStr, lastNameStr, addressStr, phoneStr, guardianStr);
+            volunteerArrayAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void signInStatusChangedCallback() {
+        volunteerArrayAdapter.notifyDataSetChanged();
+        drawer.closeDrawer(Gravity.RIGHT);
+    }
+
+    private void createDummyData(){
+        Volunteer.addNewVolunteer("Yifan", "Li", null, null, null);
+        Volunteer.addNewVolunteer("Thomas", "No Honor Forrest", null, null, null);
+        Volunteer.addNewVolunteer("Steven", "King", null, null, null);
+        Volunteer.addNewVolunteer("Tony", "Julian", null, null, null);
+
     }
 }

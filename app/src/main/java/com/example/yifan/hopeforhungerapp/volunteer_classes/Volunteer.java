@@ -2,6 +2,9 @@ package com.example.yifan.hopeforhungerapp.volunteer_classes;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
+
+import com.example.yifan.hopeforhungerapp.ApplicationConstants;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -13,7 +16,8 @@ import java.util.HashMap;
 
 public class Volunteer implements Serializable, Parcelable{
 
-    private static ArrayList<Volunteer> volunteers;
+    private static final String LOG_TAG = Volunteer.class.getSimpleName();
+    private static ArrayList<Volunteer> volunteers = new ArrayList<>();
     private String firstName;
     private String lastName;
     private String address;
@@ -35,7 +39,7 @@ public class Volunteer implements Serializable, Parcelable{
         this.hoursForCalanderDayMap = new HashMap<>();
     }
 
-    public void addNewVolunteer(String firstName, String lastName, String address, String phoneNum, String guardian){
+    public static void addNewVolunteer(String firstName, String lastName, String address, String phoneNum, String guardian){
         volunteers.add(new Volunteer(firstName, lastName, address, phoneNum, guardian));
     }
 
@@ -44,22 +48,28 @@ public class Volunteer implements Serializable, Parcelable{
         signInTime = GregorianCalendar.getInstance();
     }
 
-    public double signOutAndGetHours(){
+    public void signOut(Calendar signOutTimeStamp){
         signedIn = false;
-        signOutTime = GregorianCalendar.getInstance();
-        return getTimeDifference();
+        if(signInTime == null){
+
+            Log.e(LOG_TAG, "signInTime Null");
+
+        }
+        else{
+            this.signOutTime = signOutTimeStamp;
+            String monthDayYear = ApplicationConstants.convertCalanderObjToMMDDYYYY(signInTime);
+            double hoursWorked = ApplicationConstants.getTimeDifference(signInTime, signOutTime);
+            if(hoursForCalanderDayMap.containsKey(monthDayYear)){
+                hoursForCalanderDayMap.put(monthDayYear, hoursForCalanderDayMap.get(monthDayYear) + hoursWorked); //in case of multiple sign in in one day.
+            }
+            else{
+                hoursForCalanderDayMap.put(monthDayYear, hoursWorked);
+            }
+
+        }
 
     }
-    //Calculating the difference in hours between the two date objects
-    private double getTimeDifference(){
-        Date start = signInTime.getTime();  //set start date to signIn current time stamp
-        Date end = signOutTime.getTime();   //set end date to signOut current time stamp
-        double timeDifference = end.getTime() - start.getTime();    //Get the difference in time
-        double hoursDifference = timeDifference / (1000*60*60) % 24;    //Get the difference in hours in double format
-        //Create decimal format
-        double formattedHours = Math.floor(hoursDifference * 100)/100;
-        return formattedHours;
-    }
+
 
 
 
@@ -98,4 +108,47 @@ public class Volunteer implements Serializable, Parcelable{
     public Calendar getSignOutTime() {
         return signOutTime;
     }
+
+    protected Volunteer(Parcel in) {
+        firstName = in.readString();
+        lastName = in.readString();
+        address = in.readString();
+        phoneNum = in.readString();
+        guardian = in.readString();
+        signedIn = in.readByte() != 0x00;
+        signInTime = (Calendar) in.readValue(Calendar.class.getClassLoader());
+        signOutTime = (Calendar) in.readValue(Calendar.class.getClassLoader());
+        hoursForCalanderDayMap = (HashMap) in.readValue(HashMap.class.getClassLoader());
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(firstName);
+        dest.writeString(lastName);
+        dest.writeString(address);
+        dest.writeString(phoneNum);
+        dest.writeString(guardian);
+        dest.writeByte((byte) (signedIn ? 0x01 : 0x00));
+        dest.writeValue(signInTime);
+        dest.writeValue(signOutTime);
+        dest.writeValue(hoursForCalanderDayMap);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Volunteer> CREATOR = new Parcelable.Creator<Volunteer>() {
+        @Override
+        public Volunteer createFromParcel(Parcel in) {
+            return new Volunteer(in);
+        }
+
+        @Override
+        public Volunteer[] newArray(int size) {
+            return new Volunteer[size];
+        }
+    };
 }

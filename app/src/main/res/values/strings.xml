@@ -26,11 +26,13 @@
         "report to the Operations Manager or Volunteer Staff reassignment. I, as a parent/legal guardian or group supervisor,"
         "am solely responsible for the safety, supervision, and actions of any minor children and/or vulnerable adults in"
         "our group. In addition, I have read the volunteer checklist and will follow all rules and regulations listed as such."
-        This form is valid through the end of 2016.\n\n"
+        This form is valid for one year.\n\n"
 
     </string>
     <string name="action_settings">Settings</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="sign_in">(Sign In)</string>
+    <string name="sign_out">(Sign Out)</string>
 </resources>

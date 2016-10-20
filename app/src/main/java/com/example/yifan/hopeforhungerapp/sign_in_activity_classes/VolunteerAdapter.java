@@ -40,7 +40,7 @@ public class VolunteerAdapter extends ArrayAdapter<Volunteer> {
         }
 
         Volunteer volunteer = getItem(position);
-        holder.setPersonNameText(volunteer.getName());
+        holder.setPersonNameText(volunteer.getFirstName());
         holder.setImage(volunteer.isSignedIn());
         return convertView;
     }

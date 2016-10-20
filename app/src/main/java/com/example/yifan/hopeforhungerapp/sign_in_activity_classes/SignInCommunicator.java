@@ -7,5 +7,5 @@ import com.example.yifan.hopeforhungerapp.volunteer_classes.Volunteer;
  */
 
 public interface SignInCommunicator {
-
+    void signInStatusChangedCallback();
 }
