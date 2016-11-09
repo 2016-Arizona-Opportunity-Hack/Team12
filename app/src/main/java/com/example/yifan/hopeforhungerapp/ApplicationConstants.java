@@ -9,17 +9,17 @@ import java.util.Locale;
 
 /**
  * Created by Yifan on 10/1/2016.
+ * Contains methods to get timestamps
+ * Contains keys for parceling
  */
 
 public class ApplicationConstants {
-    public final static String LOG_TAG = ApplicationConstants.class.getSimpleName();
-    public final static String GUARDIAN = "Guardian";
-    public final static String ADDRESS = "Address";
+    private final static String LOG_TAG = ApplicationConstants.class.getSimpleName();
     public final static String FIRST_NAME = "FirstName";
     public final static String LAST_NAME = "LastName";
-    public final static String DATE = "Date";
-    public final static String PHONE = "Phone";
     public final static String INTERNAL_STORAGE = "InternalStorage";
+    public final static String VOLUNTEER_TYPE = "VolunteerType";
+    public final static String GROUP_NAME = "GroupName";
 
     public static String convertCalanderObjToMMDDYYYY(Calendar calendar){ //converts to MM/DD/YYYY format
         return String.valueOf(calendar.get(Calendar.MONTH) + 1) + "/" + calendar.get(Calendar.DAY_OF_MONTH) + "/" + calendar.get(Calendar.YEAR);
@@ -54,8 +54,7 @@ public class ApplicationConstants {
             double timeDifference = end.getTime() - start.getTime();    //Get the difference in time
             double hoursDifference = timeDifference / (1000*60*60) % 24;    //Get the difference in hours in double format
             //Create decimal format
-            double formattedHours = Math.floor(hoursDifference * 100)/100;
-            return formattedHours;
+            return Math.floor(hoursDifference * 100)/100;
         }
     }
 

@@ -18,29 +18,52 @@ public class Volunteer implements Serializable, Parcelable{
 
     private static final String LOG_TAG = Volunteer.class.getSimpleName();
     private static ArrayList<Volunteer> volunteers = new ArrayList<>();
+    private static HashMap<String, ArrayList<Volunteer>> groupVolunteers = new HashMap<>();
+
     private String firstName;
     private String lastName;
-    private String address;
-    private String phoneNum;
-    private String guardian;
-
     private transient boolean signedIn;
     private transient Calendar signInTime;
     private transient Calendar signOutTime;
 
+    public enum VolunteerTypes {
+        BENEVOLENT, SNAP, MAXIMUS, GROUP
+    }
+
+    private VolunteerTypes type;
+
     private HashMap<String, Double> hoursForCalanderDayMap;
 
-    private Volunteer(String firstName, String lastName, String address, String phoneNum, String guardian) {
+    private Volunteer(String firstName, String lastName, VolunteerTypes type) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.address = address;
-        this.phoneNum = phoneNum;
-        this.guardian = guardian;
+        this.type = type;
         this.hoursForCalanderDayMap = new HashMap<>();
     }
 
-    public static void addNewVolunteer(String firstName, String lastName, String address, String phoneNum, String guardian){
-        volunteers.add(new Volunteer(firstName, lastName, address, phoneNum, guardian));
+    private Volunteer(String firstName, String lastName, VolunteerTypes type, String groupName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.type = type;
+        this.hoursForCalanderDayMap = new HashMap<>();
+    }
+
+    public static void addNewVolunteer(String firstName, String lastName, VolunteerTypes type, String groupName){
+        if(type != VolunteerTypes.GROUP){
+            volunteers.add(new Volunteer(firstName, lastName, type));
+        }
+        else{
+            if(groupVolunteers.containsKey(groupName)){
+                ArrayList<Volunteer> selectedGroupVolunteers = groupVolunteers.get(groupName);
+                selectedGroupVolunteers.add(new Volunteer(firstName, lastName, type));
+            }
+            else{
+                ArrayList<Volunteer> newVolunteerGroup = new ArrayList<>();
+                newVolunteerGroup.add(new Volunteer(firstName, lastName, type));
+                groupVolunteers.put(groupName, newVolunteerGroup);
+            }
+        }
+
     }
 
     public void signIn(){
@@ -69,10 +92,6 @@ public class Volunteer implements Serializable, Parcelable{
         }
 
     }
-
-
-
-
     public static ArrayList<Volunteer> getVolunteers() {
         return volunteers;
     }
@@ -83,18 +102,6 @@ public class Volunteer implements Serializable, Parcelable{
 
     public String getLastName() {
         return lastName;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public String getPhoneNum() {
-        return phoneNum;
-    }
-
-    public String getGuardian() {
-        return guardian;
     }
 
     public boolean isSignedIn() {
@@ -112,9 +119,6 @@ public class Volunteer implements Serializable, Parcelable{
     protected Volunteer(Parcel in) {
         firstName = in.readString();
         lastName = in.readString();
-        address = in.readString();
-        phoneNum = in.readString();
-        guardian = in.readString();
         signedIn = in.readByte() != 0x00;
         signInTime = (Calendar) in.readValue(Calendar.class.getClassLoader());
         signOutTime = (Calendar) in.readValue(Calendar.class.getClassLoader());
@@ -130,9 +134,6 @@ public class Volunteer implements Serializable, Parcelable{
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(firstName);
         dest.writeString(lastName);
-        dest.writeString(address);
-        dest.writeString(phoneNum);
-        dest.writeString(guardian);
         dest.writeByte((byte) (signedIn ? 0x01 : 0x00));
         dest.writeValue(signInTime);
         dest.writeValue(signOutTime);

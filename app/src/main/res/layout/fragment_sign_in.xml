@@ -255,7 +255,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.4"
             android:minHeight="100dp"
-            android:src="@mipmap/hfh_logo"
+            android:src="@mipmap/ic_launcher"
             android:scaleType="fitCenter"
             android:gravity="center"
             />

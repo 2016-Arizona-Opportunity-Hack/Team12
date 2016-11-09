@@ -3,33 +3,34 @@ package com.example.yifan.hopeforhungerapp.sign_in_activity_classes;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.yifan.hopeforhungerapp.ApplicationConstants;
 import com.example.yifan.hopeforhungerapp.R;
-
+import com.example.yifan.hopeforhungerapp.volunteer_classes.Volunteer;
 
 
 public class WaiverActivity extends AppCompatActivity {
 
-    private EditText dateField;
+
     private EditText firstNameField;
     private EditText lastNameField;
-    private EditText guardianField;
-    private EditText addressField;
-    private EditText phoneField;
+    private EditText groupNameField;
     private CheckBox signitureCheckBox;
-    private Button submitBtn;
+    private Spinner volunteerTypeSpinner;
+    Volunteer.VolunteerTypes selectedType;
 
+    private final static String[] volunteerChoices = {"BENEVOLENT", "SNAP", "MAXIMUS", "GROUP"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,56 +40,108 @@ public class WaiverActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Waiver");
         toolbar.setTitleTextColor(0xFFFFFFFF);
-        submitBtn = (Button) findViewById(R.id.submit_btn);
+
         signitureCheckBox = (CheckBox) findViewById(R.id.agreement_checkbox);
-        addressField = (EditText) findViewById(R.id.address_field);
-        guardianField = (EditText) findViewById(R.id.guardian_field);
         firstNameField = (EditText) findViewById(R.id.first_name_field);
         lastNameField = (EditText) findViewById(R.id.last_name_field);
-        dateField = (EditText) findViewById(R.id.date_field);
-        phoneField = (EditText) findViewById(R.id.phone_field);
+        groupNameField = (EditText) findViewById(R.id.group_name_field);
+        spinnerSetUp();
+    }
 
+    private void spinnerSetUp(){
+        volunteerTypeSpinner = (Spinner) findViewById(R.id.volunteer_type_spinner);
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, volunteerChoices);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        volunteerTypeSpinner.setAdapter(spinnerAdapter);
+        volunteerTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                int spinnerPosition = volunteerTypeSpinner.getSelectedItemPosition();
+                if(spinnerPosition != 0){
+                    switch (spinnerPosition) {
+                        case 1:
+                            selectedType = Volunteer.VolunteerTypes.BENEVOLENT;
+                            groupNameField.setVisibility(View.INVISIBLE);
+                            break;
+                        case 2:
+                            selectedType = Volunteer.VolunteerTypes.SNAP;
+                            groupNameField.setVisibility(View.INVISIBLE);
+                            break;
+                        case 3:
+                            selectedType = Volunteer.VolunteerTypes.MAXIMUS;
+                            groupNameField.setVisibility(View.INVISIBLE);
+                            break;
+                        case 4:
+                            selectedType = Volunteer.VolunteerTypes.GROUP;
+                            groupNameField.setVisibility(View.VISIBLE);
+                            break;
+                        default:
+                            throw new UnsupportedOperationException("Invalid spinner selection");
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     public void onSubmitBtnClicked(View view){
+        //first and last name fields need to be filled
+        //spinner must be filled
+        //is spinner is GROUP then group name must be filled
         if(signitureCheckBox.isChecked()){
-            String addressStr = addressField.getText().toString();
-            String guardianStr = guardianField.getText().toString();
+
             String firstNameStr = firstNameField.getText().toString();
             String lastNameStr = lastNameField.getText().toString();
-            String dateStr = dateField.getText().toString();
-            String phoneStr = phoneField.getText().toString();
-            final String error = "cannot be empty";
+            String groupNameStr = groupNameField.getText().toString();
 
-            if(TextUtils.isEmpty(addressStr)){
-                addressField.setError(error);
-            }
+            boolean firstNameFilled = false;
+            boolean lastNameFilled = false;
+            boolean spinnerFilled = false;
+            //true if not signing a group.
+            //true if signing a group, if group is not empty
+            boolean groupFilled = !(selectedType == Volunteer.VolunteerTypes.GROUP);
+
+            final String error = "field cannot be empty";
             if(TextUtils.isEmpty(firstNameStr)){
                 firstNameField.setError(error);
+            }
+            else{
+                firstNameFilled = true;
             }
             if(TextUtils.isEmpty(lastNameStr)){
                 lastNameField.setError(error);
             }
-            if(TextUtils.isEmpty(dateStr)){
-                dateField.setError(error);
+            else{
+                lastNameFilled = true;
             }
-            if(TextUtils.isEmpty(phoneStr)){
-                phoneField.setError(error);
+            if(volunteerTypeSpinner.getSelectedItemPosition() != 0){
+                Toast.makeText(this, "Volunteer Type cannot be empty", Toast.LENGTH_LONG);
             }
-            else{ //all fields filled, pass back to sign in
-                if(TextUtils.isEmpty(guardianStr)){
-                    guardianStr = "no guardian";
-                }
+            else{
+                spinnerFilled = true;
+            }
+            if(selectedType == Volunteer.VolunteerTypes.GROUP && TextUtils.isEmpty(groupNameStr)){
+                groupNameField.setError(error);
+            }
+
+            if(firstNameFilled && lastNameFilled && spinnerFilled && groupFilled){
+                //all fields filled, pass back to sign in
                 Intent resultIntent = new Intent("intent");
                 resultIntent.putExtra(ApplicationConstants.FIRST_NAME, firstNameStr);
                 resultIntent.putExtra(ApplicationConstants.LAST_NAME, lastNameStr);
-                resultIntent.putExtra(ApplicationConstants.ADDRESS, addressStr);
-                resultIntent.putExtra(ApplicationConstants.DATE, dateStr);
-                resultIntent.putExtra(ApplicationConstants.GUARDIAN, guardianStr);
-                resultIntent.putExtra(ApplicationConstants.PHONE, phoneStr);
+                resultIntent.putExtra(ApplicationConstants.VOLUNTEER_TYPE, selectedType);
+                if(selectedType == Volunteer.VolunteerTypes.GROUP){
+                    resultIntent.putExtra(ApplicationConstants.GROUP_NAME, groupNameStr);
+                }
                 setResult(Activity.RESULT_OK, resultIntent);
                 finish();
             }
+
+
         }
         else{
             Toast.makeText(getApplicationContext(), "Need to agree to waiver (check the mark at the bottom)", Toast.LENGTH_SHORT).show();

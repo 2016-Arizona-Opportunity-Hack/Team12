@@ -157,13 +157,14 @@ public class SignInActivity extends AppCompatActivity implements SignInCommunica
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
-            String addressStr = data.getStringExtra(ApplicationConstants.ADDRESS);
-            String guardianStr = data.getStringExtra(ApplicationConstants.GUARDIAN);
             String firstNameStr = data.getStringExtra(ApplicationConstants.FIRST_NAME);
             String lastNameStr = data.getStringExtra(ApplicationConstants.LAST_NAME);
-            String dateStr = data.getStringExtra(ApplicationConstants.DATE);
-            String phoneStr = data.getStringExtra(ApplicationConstants.PHONE);
-            Volunteer.addNewVolunteer(firstNameStr, lastNameStr, addressStr, phoneStr, guardianStr);
+            String groupNameStr = null;
+            if(data.hasExtra(ApplicationConstants.GROUP_NAME)){
+                groupNameStr = data.getStringExtra(ApplicationConstants.GROUP_NAME);
+            }
+            Volunteer.VolunteerTypes type = (Volunteer.VolunteerTypes) data.getSerializableExtra(ApplicationConstants.VOLUNTEER_TYPE);
+            Volunteer.addNewVolunteer(firstNameStr, lastNameStr, type, groupNameStr);
             volunteerArrayAdapter.notifyDataSetChanged();
         }
     }
@@ -175,10 +176,11 @@ public class SignInActivity extends AppCompatActivity implements SignInCommunica
     }
 
     private void createDummyData(){
-        Volunteer.addNewVolunteer("Yifan", "Li", null, null, null);
-        Volunteer.addNewVolunteer("Thomas", "No Honor Forrest", null, null, null);
-        Volunteer.addNewVolunteer("Steven", "King", null, null, null);
-        Volunteer.addNewVolunteer("Tony", "Julian", null, null, null);
+        Volunteer.addNewVolunteer("Yifan", "Li", Volunteer.VolunteerTypes.BENEVOLENT, null);
+        Volunteer.addNewVolunteer("Thomas", "No Honor Forrest", Volunteer.VolunteerTypes.MAXIMUS, null);
+        Volunteer.addNewVolunteer("Steven", "King", Volunteer.VolunteerTypes.GROUP, "Bramble LLC");
+        Volunteer.addNewVolunteer("Nathan", "Fegard", Volunteer.VolunteerTypes.GROUP, "Bramble LLC");
+        Volunteer.addNewVolunteer("Tony", "Julian", Volunteer.VolunteerTypes.BENEVOLENT, null);
 
     }
 }
