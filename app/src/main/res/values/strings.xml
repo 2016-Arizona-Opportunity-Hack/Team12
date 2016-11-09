@@ -2,32 +2,20 @@
     <string name="app_name">HopeForHungerApp</string>
     <string name="title_activity_waiver">WaiverActivity</string>
     <string name="large_text">
-        "HOPE FOR HUNGER FOOD BANK CONSENT, WAIVER/RELEASE OF LIABILITY AND ASSUMPTION OF RISK FORM\n\n"
-
-        "Hope For Hunger Food Bank operates as a working warehouse, and as such there are inherently"
-        "dangerous activities on premise. Read Carefully Before Agreeing. \n\n"
-
-        "I, hereby affirm that I am voluntarily participating at Hope For Hunger Food Bank. By"
-        "agreeing to this release, I certify that I am fully aware that some and/or all activities may be of a strenuous nature. I"
-        "further certify that I am fully aware of the physical risks and dangers associated with or derived from participation in"
-        "this activity. \n\n"
-
-        "I represent that I am physically fit to volunteer and that this assessment of my physical fitness is based on my visits"
-        "to my personal physician and/or my own self-evaluation. I further understand that Hope For Hunger Food Bank will"
-        "not undertake any physical examination of my person for purpose of assessing my physical fitness to participate in"
-        "this activity but that it recommends that I consult with my physician prior to participating.\n\n"
-
-        "I accept such risks and responsibilities for the losses and/or damages following an injury or other loss. I will hold"
-        "harmless and waive any and all claims or causes of action against the Food Bank including but not limited to, claim"
-        "arising out of negligent or intentional conduct of Food Bank representatives or volunteer staff. I will use my"
-        "personal insurance or that provided by my Food Bank volunteer. I will follow all rules and procedures given to me"
-        "by Food Bank representatives or volunteer staff including dress code. If at any time, I, the minor child or vulnerable"
-        "adults under my supervision feel unable to perform the work assigned, I/we will immediately cease working and"
-        "report to the Operations Manager or Volunteer Staff reassignment. I, as a parent/legal guardian or group supervisor,"
-        "am solely responsible for the safety, supervision, and actions of any minor children and/or vulnerable adults in"
-        "our group. In addition, I have read the volunteer checklist and will follow all rules and regulations listed as such."
-        This form is valid through the end of 2016.\n\n"
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 
     </string>
     <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="sign_in">(Sign In)</string>
+    <string name="sign_out">(Sign Out)</string>
+    <string name="signed_in">(Signed In)</string>
+    <string name="signed_out">(Signed Out)</string>
+    <string name="first_name">first name</string>
+    <string name="last_name">last name</string>
+    <string name="group_name">group name</string>
+    <string name="i_agree_to_the_above_terms_and_conditions">I agree to the above terms and conditions.</string>
+    <string name="submit">Submit</string>
 </resources>
