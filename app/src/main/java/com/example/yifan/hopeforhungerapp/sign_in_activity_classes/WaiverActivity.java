@@ -22,7 +22,7 @@ import com.example.yifan.hopeforhungerapp.volunteer_classes.Volunteer;
 
 public class WaiverActivity extends AppCompatActivity {
 
-
+    private static final String LOG_TAG = WaiverActivity.class.getSimpleName();
     private EditText firstNameField;
     private EditText lastNameField;
     private EditText groupNameField;
@@ -57,28 +57,32 @@ public class WaiverActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 int spinnerPosition = volunteerTypeSpinner.getSelectedItemPosition();
-                if(spinnerPosition != 0){
-                    switch (spinnerPosition) {
-                        case 1:
-                            selectedType = Volunteer.VolunteerTypes.BENEVOLENT;
-                            groupNameField.setVisibility(View.INVISIBLE);
-                            break;
-                        case 2:
-                            selectedType = Volunteer.VolunteerTypes.SNAP;
-                            groupNameField.setVisibility(View.INVISIBLE);
-                            break;
-                        case 3:
-                            selectedType = Volunteer.VolunteerTypes.MAXIMUS;
-                            groupNameField.setVisibility(View.INVISIBLE);
-                            break;
-                        case 4:
-                            selectedType = Volunteer.VolunteerTypes.GROUP;
-                            groupNameField.setVisibility(View.VISIBLE);
-                            break;
-                        default:
-                            throw new UnsupportedOperationException("Invalid spinner selection");
-                    }
+
+                switch (spinnerPosition) {
+                    case 0:
+                        selectedType = Volunteer.VolunteerTypes.BENEVOLENT;
+                        Log.d(LOG_TAG, selectedType.toString());
+                        groupNameField.setVisibility(View.INVISIBLE);
+                        break;
+                    case 1:
+                        selectedType = Volunteer.VolunteerTypes.SNAP;
+                        Log.d(LOG_TAG, selectedType.toString());
+                        groupNameField.setVisibility(View.INVISIBLE);
+                        break;
+                    case 2:
+                        selectedType = Volunteer.VolunteerTypes.MAXIMUS;
+                        Log.d(LOG_TAG, selectedType.toString());
+                        groupNameField.setVisibility(View.INVISIBLE);
+                        break;
+                    case 3:
+                        selectedType = Volunteer.VolunteerTypes.GROUP;
+                        Log.d(LOG_TAG, selectedType.toString());
+                        groupNameField.setVisibility(View.VISIBLE);
+                        break;
+                    default:
+                        throw new UnsupportedOperationException("Invalid spinner selection");
                 }
+
             }
 
             @Override
@@ -103,7 +107,7 @@ public class WaiverActivity extends AppCompatActivity {
             boolean spinnerFilled = false;
             //true if not signing a group.
             //true if signing a group, if group is not empty
-            boolean groupFilled = !(selectedType == Volunteer.VolunteerTypes.GROUP);
+            boolean groupFilled = selectedType != Volunteer.VolunteerTypes.GROUP;
 
             final String error = "field cannot be empty";
             if(TextUtils.isEmpty(firstNameStr)){
@@ -118,7 +122,7 @@ public class WaiverActivity extends AppCompatActivity {
             else{
                 lastNameFilled = true;
             }
-            if(volunteerTypeSpinner.getSelectedItemPosition() != 0){
+            if(volunteerTypeSpinner.getSelectedItemPosition() < 0){
                 Toast.makeText(this, "Volunteer Type cannot be empty", Toast.LENGTH_LONG);
             }
             else{
@@ -126,6 +130,9 @@ public class WaiverActivity extends AppCompatActivity {
             }
             if(selectedType == Volunteer.VolunteerTypes.GROUP && TextUtils.isEmpty(groupNameStr)){
                 groupNameField.setError(error);
+            }
+            else{
+                groupFilled = true;
             }
 
             if(firstNameFilled && lastNameFilled && spinnerFilled && groupFilled){

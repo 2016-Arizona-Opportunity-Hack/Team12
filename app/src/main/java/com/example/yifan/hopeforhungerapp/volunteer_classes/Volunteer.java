@@ -13,7 +13,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 
-
 public class Volunteer implements Serializable, Parcelable{
 
     private static final String LOG_TAG = Volunteer.class.getSimpleName();
