@@ -1,6 +1,7 @@
 package com.example.yifan.hopeforhungerapp.sign_in_activity_classes;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,18 +41,21 @@ public class VolunteerAdapter extends ArrayAdapter<Volunteer> {
         }
 
         Volunteer volunteer = getItem(position);
-        holder.setPersonNameText(volunteer.getFirstName());
+        String fullName = volunteer.getFirstName() + " " + volunteer.getLastName();
+        holder.setPersonNameText(fullName);
         holder.setImage(volunteer.isSignedIn());
         return convertView;
     }
 
     static class VolunteerHolder {
         private TextView personName;
+        private TextView signedInStatus;
         private ImageView signedInCheckMark;
 
         public VolunteerHolder(View view){
             personName = (TextView) view.findViewById(R.id.person_name);
             signedInCheckMark = (ImageView) view.findViewById(R.id.check_mark);
+            signedInStatus = (TextView) view.findViewById(R.id.sign_in_status);
         }
 
         public void setPersonNameText(String name){
@@ -60,9 +64,13 @@ public class VolunteerAdapter extends ArrayAdapter<Volunteer> {
 
         public void setImage(boolean signedIn){
             if(signedIn){
+                signedInStatus.setText(R.string.signed_in);
+                signedInStatus.setTextColor(Color.GREEN);
                 signedInCheckMark.setImageResource(R.mipmap.check_mark);
             }
             else{
+                signedInStatus.setText(R.string.signed_out);
+                signedInStatus.setTextColor(Color.RED);
                 signedInCheckMark.setImageResource(R.mipmap.x_mark);
             }
         }

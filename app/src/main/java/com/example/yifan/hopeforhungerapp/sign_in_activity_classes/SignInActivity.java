@@ -48,6 +48,8 @@ public class SignInActivity extends AppCompatActivity implements SignInCommunica
         setContentView(R.layout.activity_sign_in);
         createDummyData();
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+
         volunteers = Volunteer.getVolunteers();
         if(volunteers == null){
             volunteers = new ArrayList<>();
